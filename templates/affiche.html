@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>{{ titre }}</title>
+    </head>
+
+    <body>
+        <h1>{{ titre }}</h1>
+        <table>
+            <tr>
+                <th>Epaisseur</th>
+                <th>pkDebut detuit</th>
+                <th>pkFin detruit</th>cha
+                <th>Cout Reparation</th>
+                <th>Temps reparation</th>
+            </tr>
+            <tr>
+                <td>{{ epaisseur }}</td>
+                <td>{{ partieD[4] }}</td>
+                <td>{{ partieD[5]}}</td>
+                <td>{{ coutR }}</td>
+                <td>{{ timeR }}</td>
+                <td>{{ volumeD }}</td>
+            </tr>
+        </table>
+
+        <!-- index.html -->
+        <div id="mapid" style="width: 600px; height: 400px;"></div>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+        <script type="text/javascript">
+            var map = L.map('mapid').setView([-18.8791902, 47.5079055], 10);
+            var marker = L.marker([-18.8791902, 47.5079055])
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var degatStyle = {
+                "color" : "red",
+                "weight" : 2,
+                "opacity" : 0.5
+            };
+
+            {% for road in roads %}
+                var marker = JSON.parse({{road[0]|tojson}});
+                L.geoJSON(marker,{color: 'green',opacity:8}).addTo(map);
+            {% endfor %}     
+        </script>
+    </body>
+</html>
